@@ -1,10 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import axios, { AxiosError } from "axios";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const onClickRegister = async () => {
+    try {
+      const res = await axios.post("/api/users/signup", {
+        email: "test@gmail.com",
+        password: "1234",
+      });
+      console.log(res.status);
+      console.log(res.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.errors[0]);
+        
+      }
+      console.log(error);
+      
+    }
+    
+
+  };
 
   return (
     <>
@@ -18,20 +37,10 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      Hello World 2
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      Hello World 2<button onClick={onClickRegister}>register</button>
+      {/* <button>register</button> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
